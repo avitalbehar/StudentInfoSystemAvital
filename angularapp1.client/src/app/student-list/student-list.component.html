@@ -1,0 +1,38 @@
+<div class="student-list" dir="rtl">
+    <h1>רשימת תלמידים</h1>
+
+    <div class="table-container">
+        <!-- שורת חיפוש -->
+        <div class="search-bar">
+            <input type="text" [(ngModel)]="searchText" placeholder="חפש לפי שם פרטי" />
+        </div>
+      
+        <!-- טבלה -->
+        <table>
+            <thead>
+              <tr>
+                <th *ngFor="let col of columns" (click)="toggleSort(col.field)">
+                  {{ col.label }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let student of getPaginatedStudents()">
+                <!-- <td><img [src]="student.imageUrl || defaultImage" alt="תמונת ילד" style="width: 50px; height: 50px;" /></td> -->
+                <td *ngFor="let col of columns">{{ student[col.field] }}</td>
+              </tr>
+            </tbody>
+        </table>
+      
+        <!-- עיצוב pagination -->
+        <div class="pagination">
+          <button (click)="goToPage(1)" [disabled]="currentPage === 1">ראשון</button>
+          <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1">קודם</button>
+          <span *ngFor="let page of [].constructor(getTotalPages()); let i = index" (click)="goToPage(i + 1)">
+            {{ i + 1 }}
+          </span>
+          <button (click)="goToPage(currentPage + 1)" [disabled]="currentPage === getTotalPages()">באמצע</button>
+          <button (click)="goToPage(getTotalPages())" [disabled]="currentPage === getTotalPages()">אחרון</button>
+        </div>
+    </div>      
+</div>
